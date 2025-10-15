@@ -10,7 +10,6 @@
 		C400F46128DFD8AC00861093 /* ThumbnailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C400F45E28DFD8AC00861093 /* ThumbnailButton.swift */; };
 		C400F46328DFDAB700861093 /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C400F46228DFDAB700861093 /* FoundationExtensions.swift */; };
 		C40A95B92CC9A91A00A02AF1 /* CameraState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A73C9F2CC0748800C2FA84 /* CameraState.swift */; };
-		C424961F2889CDC400C05256 /* CaptureModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C424961E2889CDC400C05256 /* CaptureModeView.swift */; };
 		C442A31128BEAEA70029B42B /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C442A31028BEAEA70029B42B /* MediaLibrary.swift */; };
 		C44DC7BE289AC3DD0099BB87 /* PreviewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44DC7BD289AC3DD0099BB87 /* PreviewContainer.swift */; };
 		C4518410289C5FD700B35C89 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C451840F289C5FD700B35C89 /* ViewExtensions.swift */; };
@@ -46,7 +45,6 @@
 		C4C5532D2CA1D5A3005D940C /* SwitchCameraButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A349DE28BD4B700056FAAF /* SwitchCameraButton.swift */; };
 		C4C5532E2CA1D5A3005D940C /* MediaLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C442A31028BEAEA70029B42B /* MediaLibrary.swift */; };
 		C4C5532F2CA1D5A3005D940C /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C451840F289C5FD700B35C89 /* ViewExtensions.swift */; };
-		C4C553302CA1D5A3005D940C /* CaptureModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C424961E2889CDC400C05256 /* CaptureModeView.swift */; };
 		C4C553312CA1D5A3005D940C /* SPCObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48091892BD59D7D00753C4A /* SPCObserver.swift */; };
 		C4C553322CA1D5A3005D940C /* CaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475973028A71BEC00D1D029 /* CaptureButton.swift */; };
 		C4C553332CA1D5A3005D940C /* StatusOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DFD84528C3ED3D005B74F0 /* StatusOverlayView.swift */; };
@@ -73,6 +71,10 @@
 		C4F82CCA285AE13B005D427A /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F82CC9285AE13B005D427A /* Camera.swift */; };
 		C4F82CCC285AE206005D427A /* CaptureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F82CCB285AE206005D427A /* CaptureService.swift */; };
 		C4F82CCE285AE233005D427A /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F82CCD285AE233005D427A /* CameraPreview.swift */; };
+		D56278E22E9D4FDC0027A313 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278E12E9D4FD90027A313 /* HomeView.swift */; };
+		D56278E32E9D4FDC0027A313 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278E12E9D4FD90027A313 /* HomeView.swift */; };
+		D56278E52E9D53980027A313 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278E42E9D53930027A313 /* LibraryView.swift */; };
+		D56278E62E9D53980027A313 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278E42E9D53930027A313 /* LibraryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,12 +120,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4171C532FBB2053E055D7336 /* SampleCode.xcconfig */ = {isa = PBXFileReference; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
+		4171C532FBB2053E055D7336 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		7710E8B4E5AEBAFE7C73EBAA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		B92404E334D9008D3705950F /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE.txt; sourceTree = "<group>"; };
+		B92404E334D9008D3705950F /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		C400F45E28DFD8AC00861093 /* ThumbnailButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbnailButton.swift; sourceTree = "<group>"; };
 		C400F46228DFDAB700861093 /* FoundationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
-		C424961E2889CDC400C05256 /* CaptureModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureModeView.swift; sourceTree = "<group>"; };
 		C442A31028BEAEA70029B42B /* MediaLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaLibrary.swift; sourceTree = "<group>"; };
 		C44DC7BD289AC3DD0099BB87 /* PreviewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewContainer.swift; sourceTree = "<group>"; };
 		C451840F289C5FD700B35C89 /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
@@ -157,6 +158,8 @@
 		C4F82CC9285AE13B005D427A /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		C4F82CCB285AE206005D427A /* CaptureService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureService.swift; sourceTree = "<group>"; };
 		C4F82CCD285AE233005D427A /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
+		D56278E12E9D4FD90027A313 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		D56278E42E9D53930027A313 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -254,14 +257,6 @@
 			path = FeatureToolbar;
 			sourceTree = "<group>";
 		};
-		C400F46C28E00C3500861093 /* Controls */ = {
-			isa = PBXGroup;
-			children = (
-				C424961E2889CDC400C05256 /* CaptureModeView.swift */,
-			);
-			path = Controls;
-			sourceTree = "<group>";
-		};
 		C470F0EF2899E2FB004D4515 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -280,7 +275,6 @@
 				C44DC7BD289AC3DD0099BB87 /* PreviewContainer.swift */,
 				C4F82CCD285AE233005D427A /* CameraPreview.swift */,
 				C4CB95CF2BF06EA6000CF8C7 /* CameraUI.swift */,
-				C400F46C28E00C3500861093 /* Controls */,
 				C400F46428DFDD4800861093 /* Toolbars */,
 				C400F46528DFDDD800861093 /* Overlays */,
 			);
@@ -352,6 +346,8 @@
 		C4F82C9B285ADDA2005D427A /* AVCam */ = {
 			isa = PBXGroup;
 			children = (
+				D56278E42E9D53930027A313 /* LibraryView.swift */,
+				D56278E12E9D4FD90027A313 /* HomeView.swift */,
 				C4F82C9C285ADDA2005D427A /* AVCamApp.swift */,
 				C48091832BD584AD00753C4A /* CameraModel.swift */,
 				C4F82CCB285AE206005D427A /* CaptureService.swift */,
@@ -381,7 +377,6 @@
 				B92404E334D9008D3705950F /* LICENSE.txt */,
 			);
 			name = LICENSE;
-			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -457,7 +452,7 @@
 				BuildIndependentTargetsInParallel = 1;
 				DefaultBuildSystemTypeForWorkspace = Latest;
 				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 1700;
+				LastUpgradeCheck = 2600;
 				ORGANIZATIONNAME = Apple;
 				TargetAttributes = {
 					C47C99B92CA1C6BB00B5338B = {
@@ -540,12 +535,13 @@
 				C4C553282CA1D5A3005D940C /* CameraUI.swift in Sources */,
 				C4C553292CA1D5A3005D940C /* CaptureExtensions.swift in Sources */,
 				C4C5532A2CA1D5A3005D940C /* DeviceLookup.swift in Sources */,
+				D56278E62E9D53980027A313 /* LibraryView.swift in Sources */,
 				C4C5532B2CA1D5A3005D940C /* CameraModel.swift in Sources */,
 				C4C5532C2CA1D5A3005D940C /* ThumbnailButton.swift in Sources */,
 				C4C5532D2CA1D5A3005D940C /* SwitchCameraButton.swift in Sources */,
+				D56278E32E9D4FDC0027A313 /* HomeView.swift in Sources */,
 				C4C5532E2CA1D5A3005D940C /* MediaLibrary.swift in Sources */,
 				C4C5532F2CA1D5A3005D940C /* ViewExtensions.swift in Sources */,
-				C4C553302CA1D5A3005D940C /* CaptureModeView.swift in Sources */,
 				C4C553312CA1D5A3005D940C /* SPCObserver.swift in Sources */,
 				C4C553322CA1D5A3005D940C /* CaptureButton.swift in Sources */,
 				C4C553332CA1D5A3005D940C /* StatusOverlayView.swift in Sources */,
@@ -584,11 +580,12 @@
 				C4DFD84828C5665E005B74F0 /* LiveBadge.swift in Sources */,
 				C400F46128DFD8AC00861093 /* ThumbnailButton.swift in Sources */,
 				C4E15AAF2898620E00827683 /* CameraView.swift in Sources */,
-				C424961F2889CDC400C05256 /* CaptureModeView.swift in Sources */,
 				C442A31128BEAEA70029B42B /* MediaLibrary.swift in Sources */,
+				D56278E52E9D53980027A313 /* LibraryView.swift in Sources */,
 				C4CB95D02BF06EA6000CF8C7 /* CameraUI.swift in Sources */,
 				C4C686232892E33E0038EDE1 /* RecordingTimeView.swift in Sources */,
 				C4DFD84428C3E173005B74F0 /* DataTypes.swift in Sources */,
+				D56278E22E9D4FDC0027A313 /* HomeView.swift in Sources */,
 				C4EA0DC02891EFC20085A584 /* MovieCapture.swift in Sources */,
 				C4EA0DC32891F2F80085A584 /* CaptureExtensions.swift in Sources */,
 				C472D846285BBFA60082244A /* DeviceLookup.swift in Sources */,
@@ -623,7 +620,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -640,6 +636,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AVCam${SAMPLE_CODE_DISAMBIGUATOR}.AVCamCaptureExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -665,7 +662,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -682,6 +678,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AVCam${SAMPLE_CODE_DISAMBIGUATOR}.AVCamCaptureExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -709,7 +706,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -723,6 +719,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AVCam${SAMPLE_CODE_DISAMBIGUATOR}.AVCamControlCenterExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -750,7 +747,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -764,6 +760,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AVCam${SAMPLE_CODE_DISAMBIGUATOR}.AVCamControlCenterExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -818,6 +815,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = DB6ZS7YTA4;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -884,6 +882,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = DB6ZS7YTA4;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -917,7 +916,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"AVCam/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
@@ -937,6 +935,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AVCam${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -964,7 +963,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"AVCam/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
@@ -984,6 +982,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AVCam${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";

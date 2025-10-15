@@ -40,22 +40,7 @@ protocol Camera: AnyObject, SendableMetatype {
     
     /// A Boolean value that indicates whether the camera is currently switching video devices.
     var isSwitchingVideoDevices: Bool { get }
-    
-    /// Performs a one-time automatic focus and exposure operation.
-    func focusAndExpose(at point: CGPoint) async
-    
-    /// A Boolean value that indicates whether to capture Live Photos when capturing stills.
-    var isLivePhotoEnabled: Bool { get set }
-    
-    /// A value that indicates how to balance the photo capture quality versus speed.
-    var qualityPrioritization: QualityPrioritization { get set }
-    
-    /// Captures a photo and writes it to the user's photo library.
-    func capturePhoto() async
-    
-    /// A Boolean value that indicates whether to show visual feedback when capture begins.
-    var shouldFlashScreen: Bool { get }
-    
+       
     /// A Boolean that indicates whether the camera supports HDR video recording.
     var isHDRVideoSupported: Bool { get }
     
@@ -74,3 +59,4 @@ protocol Camera: AnyObject, SendableMetatype {
     /// Synchronize the state of the camera with the persisted values.
     func syncState() async
 }
+

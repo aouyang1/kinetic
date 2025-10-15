@@ -7,15 +7,18 @@ A view that presents the main camera user interface.
 
 import SwiftUI
 import AVFoundation
+import UIKit
 
 /// A view that presents the main camera user interface.
 struct CameraUI<CameraModel: Camera>: PlatformView {
 
     @State var camera: CameraModel
-    @Binding var swipeDirection: SwipeDirection
     
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+
+    // Capture the current UIScreen from the view context.
+    @State private var currentScreen: UIScreen?
     
     var body: some View {
         Group {
@@ -25,15 +28,11 @@ struct CameraUI<CameraModel: Camera>: PlatformView {
                 compactUI
             }
         }
+        // Install a tiny helper that updates currentScreen from the active window.
+        .background(WindowScreenReader(screen: $currentScreen).allowsHitTesting(false))
         .overlay(alignment: .top) {
-            switch camera.captureMode {
-            case .photo:
-                LiveBadge()
-                    .opacity(camera.captureActivity.isLivePhoto ? 1.0 : 0.0)
-            case .video:
-                RecordingTimeView(time: camera.captureActivity.currentTime)
-                    .offset(y: isRegularSize ? 20 : 0)
-            }
+            RecordingTimeView(time: camera.captureActivity.currentTime)
+                .offset(y: isRegularSize ? 40 : 20)
         }
         .overlay {
             StatusOverlayView(status: camera.status)
@@ -46,7 +45,6 @@ struct CameraUI<CameraModel: Camera>: PlatformView {
         VStack(spacing: 0) {
             FeaturesToolbar(camera: camera)
             Spacer()
-            CaptureModeView(camera: camera, direction: $swipeDirection)
             MainToolbar(camera: camera)
                 .padding(.bottom, bottomPadding)
         }
@@ -58,8 +56,6 @@ struct CameraUI<CameraModel: Camera>: PlatformView {
         VStack {
             Spacer()
             ZStack {
-                CaptureModeView(camera: camera, direction: $swipeDirection)
-                    .offset(x: -250) // The vertical offset from center.
                 MainToolbar(camera: camera)
                 FeaturesToolbar(camera: camera)
                     .frame(width: 250)
@@ -71,23 +67,41 @@ struct CameraUI<CameraModel: Camera>: PlatformView {
             .padding(.bottom, 32)
         }
     }
-    
-    var swipeGesture: some Gesture {
-        DragGesture(minimumDistance: 50)
-            .onEnded {
-                // Capture the swipe direction.
-                swipeDirection = $0.translation.width < 0 ? .left : .right
-            }
-    }
-    
+       
     var bottomPadding: CGFloat {
         // Dynamically calculate the offset for the bottom toolbar in iOS.
-        let bounds = UIScreen.main.bounds
+        // Prefer a UIScreen from the current view context, fall back if unavailable.
+        let screen = currentScreen
+        let bounds: CGRect
+        if let screen {
+            bounds = screen.bounds
+        } else {
+            // Fallback for older platforms or early lifecycle before window is attached.
+            bounds = UIScreen.main.bounds
+        }
         let rect = AVMakeRect(aspectRatio: movieAspectRatio, insideRect: bounds)
-        return (rect.minY.rounded() / 2) + 12
+        return (rect.minY.rounded() / 2)+12
+    }
+}
+
+/// A helper view that exposes the UIScreen from the current window context.
+private struct WindowScreenReader: UIViewRepresentable {
+    @Binding var screen: UIScreen?
+    func makeUIView(context: Context) -> UIView {
+        let v = UIView(frame: .zero)
+        v.isUserInteractionEnabled = false
+        return v
+    }
+    func updateUIView(_ uiView: UIView, context: Context) {
+        // Obtain the window’s screen when available.
+        if let window = uiView.window, let s = window.windowScene?.screen {
+            if screen !== s {
+                screen = s
+            }
+        }
     }
 }
 
 #Preview {
-    CameraUI(camera: PreviewCameraModel(), swipeDirection: .constant(.left))
+    CameraUI(camera: PreviewCameraModel())
 }

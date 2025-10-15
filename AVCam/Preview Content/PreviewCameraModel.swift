@@ -55,7 +55,7 @@ class PreviewCameraModel: Camera {
         }
     }
     
-    func switchVideoDevices() {
+    func switchVideoDevices() async {
         logger.debug("Device switching isn't implemented in PreviewCamera.")
     }
     
@@ -63,7 +63,7 @@ class PreviewCameraModel: Camera {
         logger.debug("Photo capture isn't implemented in PreviewCamera.")
     }
     
-    func toggleRecording() {
+    func toggleRecording() async {
         logger.debug("Moving capture isn't implemented in PreviewCamera.")
     }
     
@@ -86,4 +86,17 @@ class PreviewCameraModel: Camera {
     func syncState() async {
         logger.debug("Syncing state isn't implemented in PreviewCamera.")
     }
+    
+    // MARK: - Zoom (protocol stubs)
+    
+    var currentZoomFactor: CGFloat {
+        // Preview stub: 1x zoom.
+        1.0
+    }
+    
+    func setZoomFactor(_ factor: CGFloat) async {
+        // Preview stub: no-op.
+        _ = factor
+    }
 }
+

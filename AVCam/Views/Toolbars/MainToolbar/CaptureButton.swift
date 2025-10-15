@@ -31,18 +31,9 @@ struct CaptureButton<CameraModel: Camera>: View {
     
     @ViewBuilder
     var captureButton: some View {
-        switch camera.captureMode {
-        case .photo:
-            PhotoCaptureButton {
-                Task {
-                    await camera.capturePhoto()
-                }
-            }
-        case .video:
-            MovieCaptureButton(isRecording: $isRecording) { _ in
-                Task {
-                    await camera.toggleRecording()
-                }
+        MovieCaptureButton(isRecording: $isRecording) { _ in
+            Task {
+                await camera.toggleRecording()
             }
         }
     }

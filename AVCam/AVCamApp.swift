@@ -12,14 +12,18 @@ import SwiftUI
 /// The AVCam app's main entry point.
 struct AVCamApp: App {
 
+    /*
     // Simulator doesn't support the AVFoundation capture APIs. Use the preview camera when running in Simulator.
     @State private var camera = CameraModel()
     
     // An indication of the scene's operational state.
     @Environment(\.scenePhase) var scenePhase
+     */
     
     var body: some Scene {
         WindowGroup {
+            HomeView()
+            /*
             CameraView(camera: camera)
                 .statusBarHidden(true)
                 .task {
@@ -34,6 +38,7 @@ struct AVCamApp: App {
                         await camera.syncState()
                     }
                 }
+             */
         }
     }
 }

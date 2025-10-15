@@ -49,6 +49,9 @@ final class CameraModel: Camera {
     
     /// A Boolean that indicates whether the camera supports HDR video recording.
     private(set) var isHDRVideoSupported = false
+
+    /// The current zoom factor of the active camera device.
+    private(set) var currentZoomFactor: CGFloat = 1.0
     
     /// An object that saves captured media to a person's Photos library.
     private let mediaLibrary = MediaLibrary()
@@ -90,15 +93,13 @@ final class CameraModel: Camera {
     func syncState() async {
         cameraState = await CameraState.current
         captureMode = cameraState.captureMode
-        qualityPrioritization = cameraState.qualityPrioritization
-        isLivePhotoEnabled = cameraState.isLivePhotoEnabled
         isHDRVideoEnabled = cameraState.isVideoHDREnabled
     }
     
     // MARK: - Changing modes and devices
     
     /// A value that indicates the mode of capture for the camera.
-    var captureMode = CaptureMode.photo {
+    var captureMode = CaptureMode.video {
         didSet {
             guard status == .running else { return }
             Task {
@@ -117,48 +118,6 @@ final class CameraModel: Camera {
         isSwitchingVideoDevices = true
         defer { isSwitchingVideoDevices = false }
         await captureService.selectNextVideoDevice()
-    }
-    
-    // MARK: - Photo capture
-    
-    /// Captures a photo and writes it to the user's Photos library.
-    func capturePhoto() async {
-        do {
-            let photoFeatures = PhotoFeatures(isLivePhotoEnabled: isLivePhotoEnabled, qualityPrioritization: qualityPrioritization)
-            let photo = try await captureService.capturePhoto(with: photoFeatures)
-            try await mediaLibrary.save(photo: photo)
-        } catch {
-            self.error = error
-        }
-    }
-    
-    /// A Boolean value that indicates whether to capture Live Photos when capturing stills.
-    var isLivePhotoEnabled = true {
-        didSet {
-            // Update the persistent state value.
-            cameraState.isLivePhotoEnabled = isLivePhotoEnabled
-        }
-    }
-    
-    /// A value that indicates how to balance the photo capture quality versus speed.
-    var qualityPrioritization = QualityPrioritization.quality {
-        didSet {
-            // Update the persistent state value.
-            cameraState.qualityPrioritization = qualityPrioritization
-        }
-    }
-    
-    /// Performs a focus and expose operation at the specified screen point.
-    func focusAndExpose(at point: CGPoint) async {
-        await captureService.focusAndExpose(at: point)
-    }
-    
-    /// Sets the `showCaptureFeedback` state to indicate that capture is underway.
-    private func flashScreen() {
-        shouldFlashScreen = true
-        withAnimation(.linear(duration: 0.01)) {
-            shouldFlashScreen = false
-        }
     }
     
     // MARK: - Video capture
@@ -190,7 +149,7 @@ final class CameraModel: Camera {
             await captureService.startRecording()
         }
     }
-    
+   
     // MARK: - Internal state observations
     
     // Set up camera's state observations.
@@ -205,13 +164,7 @@ final class CameraModel: Camera {
         Task {
             // Await new capture activity values from the capture service.
             for await activity in await captureService.$captureActivity.values {
-                if activity.willCapture {
-                    // Flash the screen to indicate capture is starting.
-                    flashScreen()
-                } else {
-                    // Forward the activity to the UI.
-                    captureActivity = activity
-                }
+                captureActivity = activity
             }
         }
         
@@ -234,3 +187,4 @@ final class CameraModel: Camera {
         }
     }
 }
+

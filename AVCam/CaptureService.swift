@@ -507,7 +507,7 @@ actor CaptureService {
             logger.error("Unable to obtain lock on device and can't enable HDR video capture.")
         }
     }
-    
+       
     // MARK: - Internal state management
     /// Updates the state of the actor to ensure its advertised capabilities are accurate.
     ///
