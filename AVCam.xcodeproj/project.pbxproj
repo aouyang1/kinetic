@@ -75,6 +75,8 @@
 		D56278E32E9D4FDC0027A313 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278E12E9D4FD90027A313 /* HomeView.swift */; };
 		D56278E52E9D53980027A313 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278E42E9D53930027A313 /* LibraryView.swift */; };
 		D56278E62E9D53980027A313 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278E42E9D53930027A313 /* LibraryView.swift */; };
+		D56278EB2EA0323F0027A313 /* ZoomSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278EA2EA0323B0027A313 /* ZoomSelector.swift */; };
+		D56278EC2EA0323F0027A313 /* ZoomSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278EA2EA0323B0027A313 /* ZoomSelector.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,6 +162,7 @@
 		C4F82CCD285AE233005D427A /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
 		D56278E12E9D4FD90027A313 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		D56278E42E9D53930027A313 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		D56278EA2EA0323B0027A313 /* ZoomSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomSelector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -241,6 +244,7 @@
 		C400F46A28E00BFB00861093 /* MainToolbar */ = {
 			isa = PBXGroup;
 			children = (
+				D56278EA2EA0323B0027A313 /* ZoomSelector.swift */,
 				C472D84D285BDFA60082244A /* MainToolbar.swift */,
 				C475973028A71BEC00D1D029 /* CaptureButton.swift */,
 				C400F45E28DFD8AC00861093 /* ThumbnailButton.swift */,
@@ -523,6 +527,7 @@
 				C4C5531D2CA1D5A3005D940C /* LiveBadge.swift in Sources */,
 				C4C5531E2CA1D5A3005D940C /* MovieCapture.swift in Sources */,
 				C4C5531F2CA1D5A3005D940C /* Camera.swift in Sources */,
+				D56278EC2EA0323F0027A313 /* ZoomSelector.swift in Sources */,
 				C4C553202CA1D5A3005D940C /* FoundationExtensions.swift in Sources */,
 				C4C553212CA1D5A3005D940C /* PhotoCapture.swift in Sources */,
 				C4C553222CA1D5A3005D940C /* PreviewCameraModel.swift in Sources */,
@@ -569,6 +574,7 @@
 				C48091852BD584AD00753C4A /* CameraModel.swift in Sources */,
 				C4F82CCE285AE233005D427A /* CameraPreview.swift in Sources */,
 				C4F82CCA285AE13B005D427A /* Camera.swift in Sources */,
+				D56278EB2EA0323F0027A313 /* ZoomSelector.swift in Sources */,
 				C4E15AB12898660900827683 /* PhotoCapture.swift in Sources */,
 				C480918B2BD59D7D00753C4A /* SPCObserver.swift in Sources */,
 				C4F82CCC285AE206005D427A /* CaptureService.swift in Sources */,

@@ -7,6 +7,8 @@ An object that provides the interface to the features of the camera.
 
 import SwiftUI
 import Combine
+import AVFoundation
+
 
 /// An object that provides the interface to the features of the camera.
 ///
@@ -19,7 +21,7 @@ import Combine
 @MainActor
 @Observable
 final class CameraModel: Camera {
-    
+
     /// The current status of the camera, such as unauthorized, running, or failed.
     private(set) var status = CameraStatus.unknown
     
@@ -52,6 +54,9 @@ final class CameraModel: Camera {
 
     /// The current zoom factor of the active camera device.
     private(set) var currentZoomFactor: CGFloat = 1.0
+    
+    // The current device being used
+    private(set) var currentDeviceName: String = "Back Camera"
     
     /// An object that saves captured media to a person's Photos library.
     private let mediaLibrary = MediaLibrary()
@@ -117,9 +122,22 @@ final class CameraModel: Camera {
     func switchVideoDevices() async {
         isSwitchingVideoDevices = true
         defer { isSwitchingVideoDevices = false }
-        await captureService.selectNextVideoDevice()
+        if currentDeviceName.starts(with: "Back") {
+            currentDeviceName = "Front Camera"
+        } else {
+            currentDeviceName = "Back Camera"
+        }
+        await captureService.selectVideoDevice(deviceName: currentDeviceName)
     }
     
+    // Select specific video device
+    func selectVideoDevice(to: String) async {
+        isSwitchingVideoDevices = true
+        defer { isSwitchingVideoDevices = false }
+        await captureService.selectVideoDevice(deviceName: to)
+        currentDeviceName = to
+    }
+ 
     // MARK: - Video capture
     /// A Boolean value that indicates whether the camera captures video in HDR format.
     var isHDRVideoEnabled = false {
@@ -186,5 +204,10 @@ final class CameraModel: Camera {
             }
         }
     }
+    
+    func setZoom(_ zoom: CGFloat) async {
+        await captureService.setZoom(zoom: zoom)
+    }
+ 
 }
 

@@ -285,32 +285,19 @@ actor CaptureService {
     }
     
     // MARK: - Device selection
-    
-    /// Changes the capture device that provides video input.
-    ///
-    /// The app calls this method in response to the user tapping the button in the UI to change cameras.
-    /// The implementation switches between the front and back cameras and, in iPadOS,
-    /// connected external cameras.
-    func selectNextVideoDevice() {
-        // The array of available video capture devices.
-        let videoDevices = deviceLookup.cameras
 
-        // Find the index of the currently selected video device.
-        let selectedIndex = videoDevices.firstIndex(of: currentDevice) ?? 0
-        // Get the next index.
-        var nextIndex = selectedIndex + 1
-        // Wrap around if the next index is invalid.
-        if nextIndex == videoDevices.endIndex {
-            nextIndex = 0
+    func selectVideoDevice(deviceName: String) {
+        guard let videoDevice = deviceLookup.cameras[deviceName] else {
+            logger.error("No camera name \(deviceName) available.")
+            return
         }
         
-        let nextDevice = videoDevices[nextIndex]
-        // Change the session's active capture device.
-        changeCaptureDevice(to: nextDevice)
-        
-        // The app only calls this method in response to the user requesting to switch cameras.
-        // Set the new selection as the user's preferred camera.
-        AVCaptureDevice.userPreferredCamera = nextDevice
+        changeCaptureDevice(to: videoDevice)
+        AVCaptureDevice.userPreferredCamera = videoDevice
+    }
+    
+    func getVideoDeviceName() -> String? {
+        activeVideoInput.flatMap(\.device).map(\.localizedName)
     }
     
     // Changes the device the service uses for video capture.
@@ -567,6 +554,18 @@ actor CaptureService {
                     }
                 }
             }
+        }
+    }
+    
+    func setZoom(zoom: CGFloat) async {
+        let device = currentDevice
+        do {
+            try device.lockForConfiguration()
+            defer { device.unlockForConfiguration() }
+            let zoomFactor = min(max(device.minAvailableVideoZoomFactor, zoom), device.maxAvailableVideoZoomFactor)
+            device.videoZoomFactor = zoomFactor
+        } catch {
+            logger.warning("Error locking configuration for setting zoom \(zoom): \(error)")
         }
     }
 }

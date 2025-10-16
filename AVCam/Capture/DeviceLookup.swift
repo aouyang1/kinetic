@@ -17,16 +17,16 @@ final class DeviceLookup {
     private let externalCameraDiscoverSession: AVCaptureDevice.DiscoverySession
     
     init() {
-        backCameraDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInDualCamera, .builtInWideAngleCamera],
+        backCameraDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInUltraWideCamera],
                                                                       mediaType: .video,
                                                                       position: .back)
-        frontCameraDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInTrueDepthCamera, .builtInWideAngleCamera],
+        frontCameraDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera],
                                                                        mediaType: .video,
                                                                        position: .front)
         externalCameraDiscoverSession = AVCaptureDevice.DiscoverySession(deviceTypes: [.external],
                                                                          mediaType: .video,
                                                                          position: .unspecified)
-        
+       
         // If the host doesn't currently define a system-preferred camera device, set the user's preferred selection to the back camera.
         if AVCaptureDevice.systemPreferredCamera == nil {
             AVCaptureDevice.userPreferredCamera = backCameraDiscoverySession.devices.first
@@ -53,19 +53,26 @@ final class DeviceLookup {
         }
     }
     
-    var cameras: [AVCaptureDevice] {
+    var cameras: [String:AVCaptureDevice] {
         // Populate the cameras array with the available cameras.
-        var cameras: [AVCaptureDevice] = []
-        if let backCamera = backCameraDiscoverySession.devices.first {
-            cameras.append(backCamera)
+        var cameras: [String:AVCaptureDevice] = [:]
+        let backCameras = backCameraDiscoverySession.devices
+        for camera in backCameras {
+            cameras[camera.localizedName] = camera
         }
-        if let frontCamera = frontCameraDiscoverySession.devices.first {
-            cameras.append(frontCamera)
+        
+        let frontCameras = frontCameraDiscoverySession.devices
+        for camera in frontCameras {
+            cameras[camera.localizedName] = camera
         }
+        
         // iPadOS supports connecting external cameras.
-        if let externalCamera = externalCameraDiscoverSession.devices.first {
-            cameras.append(externalCamera)
+        let externalCameras = externalCameraDiscoverSession.devices
+        for camera in externalCameras {
+            cameras[camera.localizedName] = camera
         }
+        
+        logger.info("available cameras on this system: \(cameras)")
         
 #if !targetEnvironment(simulator)
         if cameras.isEmpty {

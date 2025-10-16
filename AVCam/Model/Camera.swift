@@ -23,6 +23,9 @@ protocol Camera: AnyObject, SendableMetatype {
     /// The source of video content for a camera preview.
     var previewSource: PreviewSource { get }
     
+    /// Camer device currently used
+    var currentDeviceName: String { get }
+    
     /// Starts the camera capture pipeline.
     func start() async
 
@@ -38,6 +41,9 @@ protocol Camera: AnyObject, SendableMetatype {
     /// Switches between video devices available on the host system.
     func switchVideoDevices() async
     
+    /// Select a specific video device.
+    func selectVideoDevice(to: String) async
+    ///
     /// A Boolean value that indicates whether the camera is currently switching video devices.
     var isSwitchingVideoDevices: Bool { get }
        
@@ -58,5 +64,7 @@ protocol Camera: AnyObject, SendableMetatype {
     
     /// Synchronize the state of the camera with the persisted values.
     func syncState() async
+    
+    func setZoom(_ zoom: CGFloat) async
 }
 

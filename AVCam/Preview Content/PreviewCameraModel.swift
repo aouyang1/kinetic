@@ -41,6 +41,7 @@ class PreviewCameraModel: Camera {
     private(set) var isVideoDeviceSwitchable = true
     private(set) var isSwitchingVideoDevices = false
     private(set) var thumbnail: CGImage?
+    private(set) var currentDeviceName: String = "Back Camera"
     
     var error: Error?
     
@@ -57,6 +58,10 @@ class PreviewCameraModel: Camera {
     
     func switchVideoDevices() async {
         logger.debug("Device switching isn't implemented in PreviewCamera.")
+    }
+    
+    func selectVideoDevice(to: String) {
+        logger.debug("Selecting device switch isn't implemented in PreviewCamera.")
     }
     
     func capturePhoto() {
@@ -86,15 +91,8 @@ class PreviewCameraModel: Camera {
     func syncState() async {
         logger.debug("Syncing state isn't implemented in PreviewCamera.")
     }
-    
-    // MARK: - Zoom (protocol stubs)
-    
-    var currentZoomFactor: CGFloat {
-        // Preview stub: 1x zoom.
-        1.0
-    }
-    
-    func setZoomFactor(_ factor: CGFloat) async {
+       
+    func setZoom(_ factor: CGFloat) async {
         // Preview stub: no-op.
         _ = factor
     }
