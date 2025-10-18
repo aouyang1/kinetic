@@ -31,8 +31,10 @@ struct CameraUI<CameraModel: Camera>: PlatformView {
         // Install a tiny helper that updates currentScreen from the active window.
         .background(WindowScreenReader(screen: $currentScreen).allowsHitTesting(false))
         .overlay(alignment: .top) {
-            RecordingTimeView(time: camera.captureActivity.currentTime)
-                .offset(y: isRegularSize ? 40 : 20)
+            if camera.captureActivity.isRecording {
+                RecordingTimeView(time: camera.captureActivity.currentTime)
+                    .offset(y: isRegularSize ? 40 : 20)
+            }
         }
         .overlay {
             StatusOverlayView(status: camera.status)
