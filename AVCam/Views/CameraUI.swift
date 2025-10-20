@@ -56,12 +56,10 @@ struct CameraUI<CameraModel: Camera>: PlatformView {
     @ViewBuilder
     var regularUI: some View {
         VStack {
+            FeaturesToolbar(camera: camera)
             Spacer()
             ZStack {
                 MainToolbar(camera: camera)
-                FeaturesToolbar(camera: camera)
-                    .frame(width: 250)
-                    .offset(x: 250) // The vertical offset from center.
             }
             .frame(width: 740)
             .background(.ultraThinMaterial.opacity(0.8))

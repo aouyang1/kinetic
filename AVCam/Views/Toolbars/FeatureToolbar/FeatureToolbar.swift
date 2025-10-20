@@ -7,7 +7,7 @@ A view that presents controls to enable capture features.
 
 import SwiftUI
 
-/// A view that presents controls to enable capture features.
+/// A view that presents only the resolution / frame rate selector button and its options.
 struct FeaturesToolbar<CameraModel: Camera>: PlatformView {
     
     @Environment(\.verticalSizeClass) var verticalSizeClass
@@ -21,95 +21,91 @@ struct FeaturesToolbar<CameraModel: Camera>: PlatformView {
     @State private var selectedFrameRate: FrameRateOption = .fps240
     
     var body: some View {
-        VStack(spacing: 0) {
-            HStack(spacing: 0) {
-                // Resolution / FPS display button on the leading side
-                resolutionFPSButton
-                Spacer()
-            }
-            .buttonStyle(DefaultButtonStyle(size: isRegularSize ? .large : .small))
-            .padding([.leading, .trailing])
-            // Hide the toolbar items when a person interacts with capture controls.
-            .opacity(camera.prefersMinimizedUI ? 0 : 1)
-            
+        ZStack(alignment: .top) {
+            // Background dimmer behind the anchored modal; tap outside to dismiss
             if isShowingVideoOptions {
-                optionsPanel
-                    .transition(.opacity.combined(with: .move(edge: .top)))
-                    .padding(.horizontal)
+                Color.black.opacity(0.35)
+                    .ignoresSafeArea()
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        withAnimation(.easeInOut) {
+                            isShowingVideoOptions = false
+                        }
+                    }
+                    .transition(.opacity)
+                    .zIndex(1)
+            }
+            
+            // Base toolbar content
+            VStack(spacing: 6) {
+                HStack(spacing: 0) {
+                    // Capsule-styled pill button
+                    Spacer()
+                    Button {
+                        withAnimation(.easeInOut) {
+                            isShowingVideoOptions.toggle()
+                        }
+                    } label: {
+                        superscriptLabel(resolution: selectedResolution, fps: selectedFrameRate)
+                            .font(isRegularSize ? .body : .callout)
+                            .foregroundStyle(.primary)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 8)
+                            .background(
+                                Capsule(style: .continuous)
+                                    .fill(.ultraThinMaterial)
+                            )
+                    }
+                    .disabled(camera.captureActivity.isRecording)
+                    .buttonStyle(.plain)
+                }
+                .padding([.leading, .trailing])
+                .padding(.top, 20) // lower the button by 20
+                // Hide when capture controls are fullscreen.
+                .opacity(camera.prefersMinimizedUI ? 0 : 1)
+            }
+            .frame(maxWidth: .infinity, alignment: .top)
+            .zIndex(2)
+            // Overlay the full-width modal just below the button row
+            .overlay(alignment: .top) {
+                VStack(spacing: 0) {
+                    // Spacer equal to the vertical space occupied by the button row
+                    // so the modal appears just below the button
+                    Color.clear
+                        .frame(height: 20 + (isRegularSize ? 44 : 36)) // approximate button row height + the 20 offset
+                        .fixedSize(horizontal: false, vertical: true)
+                    
+                    if isShowingVideoOptions {
+                        modalCard
+                            .transition(.move(edge: .top).combined(with: .opacity))
+                            .zIndex(3)
+                    }
+                }
             }
         }
         .animation(.easeInOut, value: isShowingVideoOptions)
     }
-       
-    @ViewBuilder
-    var hdrButton: some View {
-        if isCompactSize {
-            hdrToggleButton
-        } else {
-            hdrToggleButton
-                .buttonStyle(.bordered)
-                .buttonBorderShape(.capsule)
-        }
+    
+    // MARK: - Visual-only Resolution / FPS
+    
+    private enum ResolutionOption: String, CaseIterable, Identifiable {
+        case k4 = "4K"
+        case p1080 = "1080p"
+        case p720 = "720p"
+        var id: String { rawValue }
     }
     
-    var hdrToggleButton: some View {
-        Button {
-            camera.isHDRVideoEnabled.toggle()
-        } label: {
-            Text("HDR \(camera.isHDRVideoEnabled ? "On" : "Off")")
-                .font(.body.weight(.semibold))
-        }
-        .disabled(camera.captureActivity.isRecording)
+    private enum FrameRateOption: Int, CaseIterable, Identifiable {
+        case fps30 = 30
+        case fps60 = 60
+        case fps120 = 120
+        case fps240 = 240
+        var id: Int { rawValue }
     }
     
-    @ViewBuilder
-    var compactSpacer: some View {
-        if !isRegularSize {
-            Spacer()
-        }
-    }
-}
-
-// MARK: - Visual-only Resolution / FPS
-
-private enum ResolutionOption: String, CaseIterable, Identifiable {
-    case k4 = "4K"
-    case p1080 = "1080p"
-    case p720 = "720p"
-    var id: String { rawValue }
-}
-
-private enum FrameRateOption: Int, CaseIterable, Identifiable {
-    case fps30 = 30
-    case fps60 = 60
-    case fps120 = 120
-    case fps240 = 240
-    var id: Int { rawValue }
-}
-
-extension FeaturesToolbar {
-    
-    private var resolutionFPSButton: some View {
-        Button {
-            isShowingVideoOptions.toggle()
-        } label: {
-            superscriptLabel(resolution: selectedResolution, fps: selectedFrameRate)
-                // Thinner font than semibold; use regular by default
-                .font(isRegularSize ? .body : .callout)
-                .foregroundStyle(.primary)
-                .padding(.horizontal, isRegularSize ? 12 : 10)
-                .padding(.vertical, isRegularSize ? 8 : 6)
-                .background(.regularMaterial.opacity(0.6))
-                .background(Color.gray.opacity(0.25)) // subtle gray base
-                .clipShape(Capsule())
-        }
-        .disabled(camera.captureActivity.isRecording)
-    }
-    
-    // Create a label like "1080p 240FPS" with superscript "p" and "FPS".
+    // Create a label like "1080p 240FPS" with superscript "P" and "FPS".
     private func superscriptLabel(resolution: ResolutionOption, fps: FrameRateOption) -> some View {
         HStack(spacing: 6) {
-            // Resolution "1080p" or "4K"/"720p"
             Group {
                 switch resolution {
                 case .k4:
@@ -126,7 +122,6 @@ extension FeaturesToolbar {
                     }
                 }
             }
-            // FPS "240FPS" with superscript "FPS"
             HStack(spacing: 2) {
                 Text("\(fps.rawValue)")
                 Text("FPS").baselineOffset(6).font(.caption2.weight(.bold))
@@ -135,29 +130,55 @@ extension FeaturesToolbar {
         .foregroundStyle(.primary)
     }
     
-    private var optionsPanel: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            // RESOLUTION row (label and options on the same line, minimal spacing, top aligned)
-            HStack(alignment: .top, spacing: 0) {
+    // Modal card anchored below the button and spanning the full screen width
+    private var modalCard: some View {
+        VStack(spacing: 0) {
+            // Drag handle or title row (optional)
+            Capsule()
+                .fill(Color.secondary.opacity(0.5))
+                .frame(width: 36, height: 4)
+                .padding(.top, 8)
+                .padding(.bottom, 8)
+            
+            // The options content
+            modalOptionsContent
+                .padding(.horizontal)
+                .padding(.bottom, 16)
+        }
+        .frame(maxWidth: .infinity) // full screen width within overlay
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .shadow(radius: 10)
+        .padding(.horizontal, 12)
+        // Swallow taps so inside taps don’t dismiss
+        .onTapGesture { /* swallow taps inside modal */ }
+    }
+    
+    // The content shown inside the modal
+    private var modalOptionsContent: some View {
+        // Two-column grid: left = label, right = chips (trailing aligned)
+        Grid(alignment: .trailing, horizontalSpacing: 8, verticalSpacing: 8) {
+            GridRow {
                 rowLabel("RESOLUTION")
+                    .gridColumnAlignment(.leading)
                 HorizontalChips(spacing: 0) {
                     ForEach(ResolutionOption.allCases) { item in
                         chip(
                             isSelected: item == selectedResolution,
                             content: {
                                 switch item {
-                                case .k4: Text("4K")
+                                case .k4:
+                                    Text("4K")
                                         .font(.default.weight(.regular))
                                 case .p1080:
                                     HStack(spacing: 0) {
-                                        Text("1080")                                                                                .font(.default.weight(.regular))
-
+                                        Text("1080")
+                                            .font(.default.weight(.regular))
                                     }
                                 case .p720:
                                     HStack(spacing: 0) {
                                         Text("720")
-                                                                                .font(.default.weight(.regular))
-
+                                            .font(.default.weight(.regular))
                                     }
                                 }
                             },
@@ -167,11 +188,11 @@ extension FeaturesToolbar {
                         )
                     }
                 }
+                .frame(maxWidth: .infinity, alignment: .trailing)
             }
-            
-            // FRAME RATE row (label and options on the same line, minimal spacing, top aligned)
-            HStack(alignment: .top, spacing: 0) {
+            GridRow {
                 rowLabel("FRAME RATE")
+                    .gridColumnAlignment(.leading)
                 HorizontalChips(spacing: 0) {
                     ForEach(FrameRateOption.allCases) { item in
                         chip(
@@ -188,11 +209,9 @@ extension FeaturesToolbar {
                         )
                     }
                 }
+                .frame(maxWidth: .infinity, alignment: .trailing)
             }
         }
-        .padding()
-        .frame(maxWidth: .infinity)
-        // No background per request
     }
     
     private func rowLabel(_ title: String) -> some View {
@@ -200,7 +219,7 @@ extension FeaturesToolbar {
             .font(.caption.weight(.semibold))
             .foregroundStyle(.secondary)
             .textCase(.uppercase)
-            .frame(alignment: .topLeading) // align label to the top
+            .frame(alignment: .topLeading)
     }
     
     // A single chip button with text-only styling (no background or stroke).

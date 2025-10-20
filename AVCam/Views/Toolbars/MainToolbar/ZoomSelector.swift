@@ -67,7 +67,7 @@ struct ZoomSelector<CameraModel: Camera>: View {
                 .foregroundColor(.yellow)
                 .padding(10)
                 .background(
-                    Circle().fill(Color.gray.opacity(0.9))
+                    Circle().fill(.regularMaterial.opacity(0.8))
                 )
                 .accessibilityLabel("Selected zoom \(text)x")
         } else {
