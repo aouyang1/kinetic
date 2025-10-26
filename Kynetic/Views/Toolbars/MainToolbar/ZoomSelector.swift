@@ -19,7 +19,6 @@ import PhotosUI
 struct ZoomSelector<CameraModel: Camera>: View {
     // Fixed options.
     private let options: [CGFloat] = [0.5, 1.0]
-    // Selected index; default to 1.0 (index 1).
     @State private var selectedIndex: Int = 1
     
     @State var camera: CameraModel

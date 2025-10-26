@@ -46,6 +46,8 @@ final class CameraModel: Camera {
     /// An error that indicates the details of an error during photo or movie capture.
     private(set) var error: Error?
     
+    private(set) var availableVideoFormats: [VideoFormatInfo] = []
+    
     /// An object that provides the connection between the capture session and the video preview layer.
     var previewSource: PreviewSource { captureService.previewSource }
     
@@ -86,6 +88,17 @@ final class CameraModel: Camera {
             try await captureService.start(with: cameraState)
             observeState()
             status = .running
+            
+            // see what formats are available on current hardware
+            availableVideoFormats = await captureService.availableVideoFormats().filter {
+                switch $0.marketingName {
+                case "4K", "1080p", "720p":
+                    return true
+                default:
+                    return false
+                }
+            }
+            logger.info("available formats: \(self.availableVideoFormats)")
         } catch {
             logger.error("Failed to start capture service. \(error)")
             status = .failed

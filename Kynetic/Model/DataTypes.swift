@@ -156,3 +156,48 @@ extension OutputService {
     }
     func updateConfiguration(for device: AVCaptureDevice) {}
 }
+
+/// Describes a video format’s resolution and supported frame rates for a capture device.
+struct VideoFormatInfo: Hashable, Identifiable, Codable {
+    /// Pixel width of the format.
+    let width: Int
+    /// Pixel height of the format.
+    let height: Int
+    /// A unique, sorted list of supported frames-per-second values.
+    /// These are integer fps values derived from the device format’s supported ranges.
+    let fpsOptions: [Int]
+    
+    /// A stable identifier composed from resolution and fps list.
+    var id: String {
+        let fpsString = fpsOptions.sorted(by: >).map(String.init).joined(separator: ",")
+        return "\(width)x\(height)@\(fpsString)"
+    }
+    
+    /// A human-friendly name for common resolutions; otherwise "WIDTHxHEIGHT".
+    var marketingName: String {
+        switch (width, height) {
+        // Widescreen 4K variants
+        case (3840, 2160), (4096, 2160):
+            return "4K"
+        case (1920, 1080):
+            return "1080p"
+        case (1280, 720):
+            return "720p"
+        default:
+            return "\(width)x\(height)"
+        }
+    }
+    
+    /// Convenience for sorting by total pixel count, then by max fps.
+    var sortKey: (pixels: Int, maxFps: Int) {
+        (width * height, fpsOptions.max() ?? 0)
+    }
+    
+    init(width: Int, height: Int, fpsOptions: [Int]) {
+        self.width = width
+        self.height = height
+        // Normalize fps: unique and sorted descending
+        let unique = Set(fpsOptions)
+        self.fpsOptions = unique.sorted(by: <)
+    }
+}

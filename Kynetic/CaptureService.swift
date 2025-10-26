@@ -293,7 +293,6 @@ actor CaptureService {
         }
         
         changeCaptureDevice(to: videoDevice)
-        AVCaptureDevice.userPreferredCamera = videoDevice
     }
     
     func getVideoDeviceName() -> String? {
@@ -567,6 +566,67 @@ actor CaptureService {
         } catch {
             logger.warning("Error locking configuration for setting zoom \(zoom): \(error)")
         }
+    }
+    
+    // MARK: - Video format enumeration
+    
+    /// Returns a deduplicated, sorted list of video resolutions and their supported integer fps options for the current device.
+    ///
+    /// - Note: This inspects all `AVCaptureDevice.Format` entries for the active device, aggregates fps ranges per resolution,
+    ///         and returns unique `VideoFormatInfo` values sorted by pixel count (descending) then max fps (descending).
+    func availableVideoFormats() async -> [VideoFormatInfo] {
+        let device = currentDevice
+        
+        let validFps = [30, 60, 120, 240]
+        
+        // Collect fps per resolution.
+        var map: [String: (width: Int, height: Int, fps: Set<Int>)] = [:]
+        
+        for format in device.formats {
+            let desc = format.formatDescription
+            let dims = CMVideoFormatDescriptionGetDimensions(desc)
+            let width = Int(dims.width)
+            let height = Int(dims.height)
+            guard width > 0, height > 0 else { continue }
+            
+            // Build integer fps options from supported ranges.
+            var fpsSet = Set<Int>()
+            for range in format.videoSupportedFrameRateRanges {
+                // Some ranges can be fractional; include all whole-number fps in the range.
+                let minF = Int(ceil(range.minFrameRate))
+                let maxF = Int(floor(range.maxFrameRate))
+                
+                for fps in validFps {
+                    if fps >= minF && fps <= maxF {
+                        fpsSet.insert(fps)
+                    }
+                }
+            }
+            guard !fpsSet.isEmpty else { continue }
+            
+            let key = "\(width)x\(height)"
+            if var entry = map[key] {
+                entry.fps.formUnion(fpsSet)
+                map[key] = (width, height, entry.fps)
+            } else {
+                map[key] = (width, height, fpsSet)
+            }
+        }
+        
+        // Map to VideoFormatInfo and sort.
+        let infos = map.values.map { tuple in
+            VideoFormatInfo(width: tuple.width, height: tuple.height, fpsOptions: Array(tuple.fps))
+        }
+        .sorted {
+            let lhsKey = $0.sortKey
+            let rhsKey = $1.sortKey
+            if lhsKey.pixels != rhsKey.pixels {
+                return lhsKey.pixels > rhsKey.pixels
+            }
+            return lhsKey.maxFps > rhsKey.maxFps
+        }
+        
+        return infos
     }
 }
 

@@ -23,8 +23,11 @@ protocol Camera: AnyObject, SendableMetatype {
     /// The source of video content for a camera preview.
     var previewSource: PreviewSource { get }
     
-    /// Camer device currently used
+    /// Camera device currently used
     var currentDeviceName: String { get }
+    
+    /// Camera available formats for recording
+    var availableVideoFormats: [VideoFormatInfo] { get }
     
     /// Starts the camera capture pipeline.
     func start() async

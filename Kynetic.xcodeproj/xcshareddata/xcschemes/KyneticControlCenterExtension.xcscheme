@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C4C6E1F92CA1CF250081A8EA"
-               BuildableName = "AVCamControlCenterExtension.appex"
-               BlueprintName = "AVCamControlCenterExtension"
-               ReferencedContainer = "container:AVCam.xcodeproj">
+               BuildableName = "KyneticControlCenterExtension.appex"
+               BlueprintName = "KyneticControlCenterExtension"
+               ReferencedContainer = "container:Kynetic.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -30,9 +30,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C4F82C98285ADDA2005D427A"
-               BuildableName = "AVCam.app"
-               BlueprintName = "AVCam"
-               ReferencedContainer = "container:AVCam.xcodeproj">
+               BuildableName = "Kynetic.app"
+               BlueprintName = "Kynetic"
+               ReferencedContainer = "container:Kynetic.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C4F82C98285ADDA2005D427A"
-            BuildableName = "AVCam.app"
-            BlueprintName = "AVCam"
-            ReferencedContainer = "container:AVCam.xcodeproj">
+            BuildableName = "Kynetic.app"
+            BlueprintName = "Kynetic"
+            ReferencedContainer = "container:Kynetic.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -98,9 +98,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C4F82C98285ADDA2005D427A"
-            BuildableName = "AVCam.app"
-            BlueprintName = "AVCam"
-            ReferencedContainer = "container:AVCam.xcodeproj">
+            BuildableName = "Kynetic.app"
+            BlueprintName = "Kynetic"
+            ReferencedContainer = "container:Kynetic.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

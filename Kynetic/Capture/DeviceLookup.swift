@@ -27,10 +27,13 @@ final class DeviceLookup {
                                                                          mediaType: .video,
                                                                          position: .unspecified)
        
-        // If the host doesn't currently define a system-preferred camera device, set the user's preferred selection to the back camera.
-        if AVCaptureDevice.systemPreferredCamera == nil {
+        AVCaptureDevice.userPreferredCamera = backCameraDiscoverySession.devices.filter{
+            return $0.deviceType == .builtInWideAngleCamera
+        }.first
+        if AVCaptureDevice.userPreferredCamera == nil {
             AVCaptureDevice.userPreferredCamera = backCameraDiscoverySession.devices.first
         }
+        logger.info("user preferred camera is \(AVCaptureDevice.userPreferredCamera)")
     }
     
     /// Returns the system-preferred camera for the host system.

@@ -42,6 +42,7 @@ class PreviewCameraModel: Camera {
     private(set) var isSwitchingVideoDevices = false
     private(set) var thumbnail: CGImage?
     private(set) var currentDeviceName: String = "Back Camera"
+    private(set) var availableVideoFormats: [VideoFormatInfo] = []
     
     var error: Error?
     
