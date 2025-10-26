@@ -628,6 +628,72 @@ actor CaptureService {
         
         return infos
     }
+    
+    // MARK: - Format and frame rate configuration
+    
+    /// Changes the active video resolution by selecting a device format that matches the given width and height.
+    /// If multiple formats match, prefers the one with the highest max frame rate.
+    func setVideoResolution(width: Int, height: Int) async {
+        let device = currentDevice
+        
+        // Find candidate formats that match the requested dimensions.
+        let candidates = device.formats.filter {
+            let dims = CMVideoFormatDescriptionGetDimensions($0.formatDescription)
+            return Int(dims.width) == width && Int(dims.height) == height
+        }
+        guard !candidates.isEmpty else {
+            logger.warning("No device formats found for \(width)x\(height).")
+            return
+        }
+        
+        // Prefer the format with the highest max frame rate.
+        let targetFormat = candidates.max { lhs, rhs in
+            let lMax = lhs.videoSupportedFrameRateRanges.last?.maxFrameRate ?? 0
+            let rMax = rhs.videoSupportedFrameRateRanges.last?.maxFrameRate ?? 0
+            return lMax < rMax
+        }!
+        
+        // Apply the format change.
+        captureSession.beginConfiguration()
+        defer { captureSession.commitConfiguration() }
+        do {
+            try device.lockForConfiguration()
+            device.activeFormat = targetFormat
+            device.unlockForConfiguration()
+        } catch {
+            logger.warning("Failed to set video resolution \(width)x\(height): \(error)")
+        }
+        
+        // Update capabilities after reconfiguration.
+        updateCaptureCapabilities()
+    }
+    
+    /// Attempts to set the active frame rate by configuring min/max frame durations.
+    /// The requested fps must be supported by the current activeFormat's frame rate ranges.
+    func setVideoFrameRate(_ fps: Int) async {
+        let device = currentDevice
+        let fpsDouble = Double(fps)
+        
+        // Verify support on the current active format.
+        let supported = device.activeFormat.videoSupportedFrameRateRanges.contains { range in
+            range.minFrameRate <= fpsDouble && fpsDouble <= range.maxFrameRate
+        }
+        guard supported else {
+            logger.warning("Requested fps \(fps) not supported by active format \(device.activeFormat).")
+            return
+        }
+        
+        do {
+            try device.lockForConfiguration()
+            defer { device.unlockForConfiguration() }
+            
+            let duration = CMTime(value: 1, timescale: CMTimeScale(fps))
+            device.activeVideoMinFrameDuration = duration
+            device.activeVideoMaxFrameDuration = duration
+        } catch {
+            logger.warning("Failed to set fps \(fps): \(error)")
+        }
+    }
 }
 
 class CaptureControlsDelegate: NSObject, AVCaptureSessionControlsDelegate {

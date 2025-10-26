@@ -95,7 +95,33 @@ struct FeaturesToolbar<CameraModel: Camera>: PlatformView {
         }
         // Keep FPS selection valid when resolution changes.
         .onChange(of: selectedFormatID) { _, _ in
+            // Coerce FPS to a valid option for the new format.
             coerceSelectedFPSToValidOption()
+            // Apply the resolution to the camera.
+            if let fmt = selectedFormat {
+                Task {
+                    await camera.setVideoResolution(width: fmt.width, height: fmt.height)
+                    // After changing resolution, re-apply the selected FPS (if still valid)
+                    if let fps = selectedFPS {
+                        await camera.setVideoFrameRate(fps)
+                    }
+                }
+            }
+        }
+        // Apply fps changes to the camera.
+        .onChange(of: selectedFPS) { _, newValue in
+            guard let fps = newValue else { return }
+            Task {
+                await camera.setVideoFrameRate(fps)
+            }
+        }
+        // Dismiss the modal when recording starts.
+        .onChange(of: camera.captureActivity) { _, newValue in
+            if newValue.isRecording {
+                withAnimation(.easeInOut) {
+                    isShowingVideoOptions = false
+                }
+            }
         }
     }
     

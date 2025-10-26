@@ -69,5 +69,9 @@ protocol Camera: AnyObject, SendableMetatype {
     func syncState() async
     
     func setZoom(_ zoom: CGFloat) async
+    
+    func setVideoResolution(width: Int, height: Int) async
+    
+    func setVideoFrameRate(_ fps: Int) async
 }
 

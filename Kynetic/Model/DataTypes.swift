@@ -26,7 +26,7 @@ enum CameraStatus {
 /// An enumeration that defines the activity states the capture service supports.
 ///
 /// This type provides feedback to the UI regarding the active status of the `CaptureService` actor.
-enum CaptureActivity {
+enum CaptureActivity: Equatable {
     case idle
     /// A status that indicates the capture service is performing photo capture.
     case photoCapture(willCapture: Bool = false, isLivePhoto: Bool = false)

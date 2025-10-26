@@ -97,5 +97,13 @@ class PreviewCameraModel: Camera {
         // Preview stub: no-op.
         _ = factor
     }
+    
+    func setVideoResolution(width: Int, height: Int) async {
+        logger.debug("Setting video resolution isn't implemented in PreviewCamera.")
+    }
+    
+    func setVideoFrameRate(_ fps: Int) async {
+        logger.debug("Setting video frame rate isn't implemented in PreviewCamera.")
+    }
 }
 

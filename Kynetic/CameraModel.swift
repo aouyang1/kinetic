@@ -221,6 +221,14 @@ final class CameraModel: Camera {
     func setZoom(_ zoom: CGFloat) async {
         await captureService.setZoom(zoom: zoom)
     }
+    
+    func setVideoResolution(width: Int, height: Int) async {
+        await captureService.setVideoResolution(width: width, height: height)
+    }
+    
+    func setVideoFrameRate(_ fps: Int) async {
+        await captureService.setVideoFrameRate(fps)
+    }
  
 }
 
